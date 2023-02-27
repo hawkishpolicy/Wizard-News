@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
         <div class='news-item'>
           <p>
             <span class="news-position">${post.id}. ▲</span>
-            ${post.title}
+            <a href="/posts/${post.id}">${post.title}</a>
             <small>(by ${post.name})</small>
           </p>
           <small class="news-info">
@@ -36,23 +36,62 @@ app.get("/", (req, res) => {
         .join("")}
     </div>
   </body>
-</html>`;
+  </html>`;
 
-  //   const html = `<!DOCTYPE html>
-  // // <html>
-  // // <head>
-  // //   <title>Wizard News</title>
-  // // </head>
-  // // <body>
-  // // <ul>
-  // //   ${posts
-  //     .map((post) => `<li>${post.title}</li><p>${post.content}</p>`)
-  //     .join("")}
-  // </ul>
-  // </body>
-  // </html>`;
   res.send(html);
 });
+
+app.get('/posts/:id', (req, res) => {
+  const id = req.params.id;
+  const post = postBank.find(id);
+
+  if (post.id){
+    const html = `<DOCTYPE html>
+    <html>
+    <head>
+      <title>Wizard News</title>
+      <link rel="stylesheet" href="/style.css" />
+    </head>
+    <body>
+      <div class="news-list">
+        <header><img src="/logo.png"/>Wizard News</header>
+        <div class='news-item'>
+          <p>
+            ${post.title}
+            <small>(by ${post.name})</small>
+          </p>
+          <p>
+            ${post.content}
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>`;
+
+  res.send(html); 
+  } else {
+    console.error(err.stack);
+  }
+});
+
+app.use((err, req, res, next) => {
+  res.status(404)
+    const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Wizard News</title>
+      <link rel="stylesheet" href="/style.css" />
+    </head>
+    <body>
+      <header><img src="/logo.png"/>Wizard News</header>
+      <div class="not-found">
+        <p>404: Page Not Found</p>
+      </div>
+    </body>
+    </html>`
+    res.send(html)
+})
 
 const PORT = 1337;
 
