@@ -41,11 +41,11 @@ app.get("/", (req, res) => {
   res.send(html);
 });
 
-app.get('/posts/:id', (req, res) => {
+app.get("/posts/:id", (req, res) => {
   const id = req.params.id;
   const post = postBank.find(id);
 
-  if (post.id){
+  if (post.id) {
     const html = `<DOCTYPE html>
     <html>
     <head>
@@ -68,15 +68,15 @@ app.get('/posts/:id', (req, res) => {
     </body>
     </html>`;
 
-  res.send(html); 
+    res.send(html);
   } else {
     console.error(err.stack);
   }
 });
 
 app.use((err, req, res, next) => {
-  res.status(404)
-    const html = `
+  res.status(404);
+  const html = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -89,11 +89,11 @@ app.use((err, req, res, next) => {
         <p>404: Page Not Found</p>
       </div>
     </body>
-    </html>`
-    res.send(html)
-})
+    </html>`;
+  res.send(html);
+});
 
-const PORT = 1337;
+const { PORT = 1337 } = process.env;
 
 app.listen(PORT, () => {
   console.log(`App listening in port ${PORT}`);
